@@ -114,6 +114,15 @@ def analyze_sam_hive():
             
     except Exception as e:
         print(f"Error reading SAM hive: {e}")
+        # Add this to your AT.py to complete command history analysis
+
+def analyze_user_commands():
+    reg = Registry.Registry("NTUSER.DAT.copy0")
+    runmru = reg.open("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU")
+    print("User Run Commands:")
+    for value in runmru.values():
+        if value.name() != "MRUList":
+            print(f"- {value.value()}")
 
 def main():
     """Main forensic analysis function"""
@@ -136,4 +145,5 @@ def main():
     input("\nPress Enter to exit...")
 
 if __name__ == "__main__":
+
     main()
